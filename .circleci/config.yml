@@ -22,7 +22,7 @@ jobs:
       - *env_var
       - run:
           name: building docker image
-          command: docker build -t "$IMAGE_NAME:$IMAGE_TAG" -f Dockerfile
+          command: docker build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./Dockerfile
       - run:
           name: running container
           command: docker run "$IMAGE_NAME:$IMAGE_TAG"
