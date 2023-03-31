@@ -47,4 +47,5 @@ workflows:
     jobs:
       - build
       - push:
-          required: build
+          requires: 
+            - build
