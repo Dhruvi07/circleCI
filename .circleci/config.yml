@@ -4,7 +4,7 @@ references:
   container_config: &container_config
     working_directory: *workspace_root
     docker:
-      - image: docker:23-cli
+      - image: cimg/base:2023.03
   env_var: &env_var
     run:
       command: |
@@ -18,7 +18,8 @@ jobs:
     <<: *container_config
     steps:
       - checkout
-      - setup_remote_docker 
+      - setup_remote_docker:
+          version: 20.10.14
       - *env_var
       - run:
           name: building docker image
