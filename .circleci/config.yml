@@ -29,8 +29,8 @@ jobs:
           command: | 
             docker build -t "$IMAGE_NAME:$IMAGE_TAG" -f Dockerfile .
       - run:
-          name: running container
-          command: docker run "$IMAGE_NAME:$IMAGE_TAG"
+          name: saving image as tar
+          command: docker save -o image.tar "$IMAGE_NAME:$IMAGE_TAG"
       - persist_to_workspace:
           root: .
           paths:
@@ -48,6 +48,7 @@ jobs:
           name: push docker image
           command: | 
             echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin
+            docker load -i image.tar
             docker push "$IMAGE_NAME:$IMAGE_TAG"
 
 
