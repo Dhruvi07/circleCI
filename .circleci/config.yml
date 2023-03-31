@@ -9,7 +9,7 @@ references:
     run:
       command: |
         export IMAGE_TAG_PREFIX=$(echo branch-$CIRCLE_BRANCH | sed 's/\//-/' )
-        echo "export IMAGE_NAME=circleci/testing" >> $BASH_ENV
+        echo "export IMAGE_NAME=dhruvi007/cci_testing" >> $BASH_ENV
         echo "export IMAGE_TAG=$IMAGE_TAG_PREFIX-${CIRCLE_SHA1:0:7}" >> $BASH_ENV
         source $BASH_ENV
 
@@ -28,6 +28,19 @@ jobs:
       - run:
           name: running container
           command: docker run "$IMAGE_NAME:$IMAGE_TAG"
+  push:
+    <<: *container_config
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - *env_var
+      - run:
+          name: push docker image
+          command: | 
+            echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin
+            docker push "$IMAGE_NAME:$IMAGE_TAG"
+
 
 workflows:
   build_and_run:
