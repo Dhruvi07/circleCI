@@ -46,3 +46,5 @@ workflows:
   build_and_run:
     jobs:
       - build
+      - push:
+          required: build
