@@ -18,6 +18,7 @@ jobs:
     <<: *container_config
     steps:
       - checkout
+      - setup_remote_docker 
       - *env_var
       - run:
           name: building docker image
