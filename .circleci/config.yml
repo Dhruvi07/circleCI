@@ -12,6 +12,9 @@ references:
         echo "export IMAGE_NAME=dhruvi007/cci_testing" >> $BASH_ENV
         echo "export IMAGE_TAG=$IMAGE_TAG_PREFIX-${CIRCLE_SHA1:0:7}" >> $BASH_ENV
         source $BASH_ENV
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
 
 jobs:
   build:
@@ -28,9 +31,11 @@ jobs:
       - run:
           name: running container
           command: docker run "$IMAGE_NAME:$IMAGE_TAG"
+      
   push:
     <<: *container_config
     steps:
+      - *attach_workspace
       - checkout
       - setup_remote_docker:
           version: 20.10.14
