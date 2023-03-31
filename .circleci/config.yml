@@ -24,7 +24,7 @@ jobs:
       - run:
           name: building docker image
           command: | 
-            docker build -t test -f ./Dockerfile
+            docker build -t test -f .
             
       - run:
           name: running container
