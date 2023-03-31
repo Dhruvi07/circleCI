@@ -1,0 +1,32 @@
+version: 2.1
+references:
+  workspace_root: &workspace_root ~/dhruvi
+  container_config: &container_config
+    working_directory: *workspace_root
+    docker:
+      - image: docker:23-cli
+  env_var: &env_var
+    run:
+      command: |
+        export IMAGE_TAG_PREFIX=$(echo branch-$CIRCLE_BRANCH | sed 's/\//-/' )
+        echo "export IMAGE_NAME=circleci/testing" >> $BASH_ENV
+        echo "export IMAGE_TAG=$IMAGE_TAG_PREFIX-${CIRCLE_SHA1:0:7}" >> $BASH_ENV
+        source $BASH_ENV
+
+jobs:
+  build:
+    <<: *container_config
+    steps:
+      - checkout
+      - *env_var
+      - run:
+          name: building docker image
+          command: docker build -t "$IMAGE_NAME:$IMAGE_TAG"
+      - run:
+          name: running container
+          command: docker run "$IMAGE_NAME:$IMAGE_TAG"
+
+workflows:
+  build_and_run:
+    jobs:
+      - build
