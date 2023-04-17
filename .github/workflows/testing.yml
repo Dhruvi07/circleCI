@@ -2,8 +2,15 @@ name: creating docker image
 
 
 on:
-  push:
-    branches: main
+  workflow_dispatch:
+    inputs:
+      image_name:
+        description: "please provide image name"
+        default: "ga_testing"
+        required: true
+
+  # push:
+  #   branches: main
 
 jobs:
   building-image:
@@ -24,5 +31,5 @@ jobs:
            docker build -t $IMAGE_NAME -f Dockerfile .
            docker push $IMAGE_NAME
           env:
-            IMAGE_NAME: dhruvi007/ga_testing
+            IMAGE_NAME: dhruvi007/${{ github.event.inputs.image_name }}
         
