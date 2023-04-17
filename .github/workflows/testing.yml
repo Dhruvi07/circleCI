@@ -9,6 +9,9 @@ on:
         default: "ga_testing"
         required: true
 
+  repository_dispatch:
+    types: webhook
+
   # push:
   #   branches: main
 
