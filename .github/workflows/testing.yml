@@ -22,11 +22,11 @@ jobs:
     steps:
         - name: checking out
           uses: actions/checkout@v3
-        - name: Webhook
-          uses: distributhor/workflow-webhook
-          with:
-            url: "https://typedwebhook.tools/webhook/76f99724-6416-4e76-897c-48d0eaddac82"
-            json: '{ "repository": "${{github.event.repository.full_name}}" }'
+        # - name: Webhook
+        #   uses: distributhor/workflow-webhook
+        #   with:
+        #     url: "https://typedwebhook.tools/webhook/76f99724-6416-4e76-897c-48d0eaddac82"
+        #     json: '{ "repository": "${{github.event.repository.full_name}}" }'
         - name: Set up Docker Buildx
           uses: docker/setup-buildx-action@v2
         - name: Login to Docker Hub
